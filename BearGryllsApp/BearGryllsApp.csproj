@@ -1038,6 +1038,7 @@
     <Content Include="js\bootstrap-image-gallery.min.js" />
     <Content Include="js\bootstrap-switch.js" />
     <Content Include="js\bootstrap-switch.min.js" />
+    <Content Include="js\checklist.js" />
     <Content Include="js\cors\jquery.postmessage-transport.js" />
     <Content Include="js\cors\jquery.xdr-transport.js" />
     <Content Include="js\demo.js" />
@@ -1103,6 +1104,9 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\AddTrip\addtrip.html" />
+    <Content Include="Views\ChatTab\chattab.html" />
+    <Content Include="Views\ChatTab\chattab.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1139,6 +1143,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\MainPage\Index.cshtml" />
     <Content Include="Scripts\data.json" />
+    <Content Include="Views\Shared\ShareLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

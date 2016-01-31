@@ -217,6 +217,7 @@
                 <li class=""><a href="#tab_2" data-toggle="tab">Chat</a></li>
                 <li class=""><a href="#tab_3" data-toggle="tab">Photos</a></li>
                 <li class=""><a href="#tab_4" data-toggle="tab">Expense Manager</a></li>
+                <li class=""><a href="#tab_5" data-toggle="tab">CheckList</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
@@ -236,30 +237,32 @@
                             </div><!-- /.box-header -->
                             <div class="box-body" style="height: 600px;">
                                 <!-- Conversations are loaded here -->
-                                <div class="direct-chat-messages">
+                                <div id="chat-box-main-div" class="direct-chat-messages">
                                     <!-- Message. Default to the left -->
+                                <!--
                                     <div class="direct-chat-msg">
                                         <div class="direct-chat-info clearfix">
-                                            <span class="direct-chat-name pull-left">Alexander Pierce</span>
+                                            <span class="direct-chat-name pull-left">Abhishek</span>
                                             <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                                        </div><!-- /.direct-chat-info -->
-                                        <img class="direct-chat-img" src="~/Content/dist/img/user1-128x128.jpg" alt="message user image"><!-- /.direct-chat-img -->
+                                        </div>
+                                        <img class="direct-chat-img" src="~/Content/dist/img/user1-128x128.jpg" alt="message user image">
                                         <div class="direct-chat-text">
-                                            Is this template really for free? That's unbelievable!
-                                        </div><!-- /.direct-chat-text -->
-                                    </div><!-- /.direct-chat-msg -->
-                                    <!-- Message to the right -->
+                                            We are near the lake.
+                                    </div>
+                                    
                                     <div class="direct-chat-msg right">
                                         <div class="direct-chat-info clearfix">
-                                            <span class="direct-chat-name pull-right">Sarah Bullock</span>
+                                            <span class="direct-chat-name pull-right">Palash</span>
                                             <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                                        </div><!-- /.direct-chat-info -->
-                                        <img class="direct-chat-img" src="~/Content/dist/img/user3-128x128.jpg" alt="message user image"><!-- /.direct-chat-img -->
+                                        </div>
+                                        <img class="direct-chat-img" src="~/Content/dist/img/user3-128x128.jpg" alt="message user image">
                                         <div class="direct-chat-text">
-                                            You better believe it!
-                                        </div><!-- /.direct-chat-text -->
-                                    </div><!-- /.direct-chat-msg -->
-                                </div><!--/.direct-chat-messages-->
+                                            Coming
+                                        </div>
+                                    </div>
+                                    -->
+                                </div>
+                   
                                 <!-- Contacts are loaded here -->
                                 <div class="direct-chat-contacts">
                                     <ul class="contacts-list">
@@ -281,9 +284,9 @@
                             <div class="box-footer">
                                 <form action="#" method="post">
                                     <div class="input-group">
-                                        <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                        <input type="text" id="text-input" name="message" placeholder="Type Message ..." class="form-control" onkeydown="if (event.keyCode == 13) { Message(); return false; }">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary btn-flat">Send</button>
+                                            <button type="button" class="btn btn-primary btn-flat" onclick="Message()">Send</button>
                                         </span>
                                     </div>
                                 </form>
@@ -293,76 +296,51 @@
                 <div class="tab-pane" id="tab_3">
                     <br>
 
+                <!-- Ravi's change-->
                     <!-- Adding for upload option -->
-
-                    <br>
-                    <div class="container">
-                        <!-- The file upload form used as target for the file upload widget -->
-                        <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-                            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                            <div class="row fileupload-buttonbar">
-                                <div class="col-lg-7">
-                                    <!-- The fileinput-button span is used to style the file input field as button -->
-                                    <span class="btn btn-success fileinput-button">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        <span>Add files...</span>
-                                        <input type="file" name="files[]" multiple>
-                                    </span>
-                                    <button type="submit" class="btn btn-primary start">
-                                        <i class="glyphicon glyphicon-upload"></i>
-                                        <span>Start upload</span>
-                                    </button>
-                                    <button type="reset" class="btn btn-warning cancel">
-                                        <i class="glyphicon glyphicon-ban-circle"></i>
-                                        <span>Cancel upload</span>
-                                    </button>
-                                    <button type="button" class="btn btn-danger delete">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                        <span>Delete</span>
-                                    </button>
-                                    <input type="checkbox" class="toggle">
-                                    <!-- The global file processing state -->
-                                    <span class="fileupload-process"></span>
-                                </div>
-                                <!-- The global progress state -->
-                                <div class="col-lg-5 fileupload-progress fade">
-                                    <!-- The global progress bar -->
-                                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                                    </div>
-                                    <!-- The extended global progress state -->
-                                    <div class="progress-extended">&nbsp;</div>
-                                </div>
-                            </div>
-                            <!-- The table listing the files available for upload/download -->
-                            <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-                        </form>
-                    </div>
-
-                    <br>
-
+                   <br>
                     <!-- Uploading part ends here-->
                     <div class="row">
                         <div class="col-md-1">
-                            <button class="btn btn-default" onclick="ImageUploader()">
-                                <span style="font-size: 1.5em;" class="glyphicon glyphicon-plus"></span>
+
+                                    <span class="btn btn-success fileinput-button">
+                                <i style="font-size: 1.5em;" class="glyphicon glyphicon-plus"></i>
+                                        <input type="file" name="files[]" multiple>
+                                    </span>
+                                </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-primary start">
+                                <i style="font-size: 1.5em;" class="glyphicon glyphicon-share-alt"></i>
                             </button>
                         </div>
                         <div class="col-md-1">
-                            <button class="btn btn-default" onclick="myFunc()">
-                                <span style="font-size: 1.5em;" class="glyphicon glyphicon-share-alt"></span>
+                            <button type="button" class="btn btn-warning">
+                                <i style="font-size: 1.5em;" class="glyphicon glyphicon-refresh"></i>
                             </button>
                         </div>
                         <div class="col-md-1">
-                            <button class="btn btn-default">
-                                <span style="font-size: 1.5em;" class="glyphicon glyphicon-download-alt"></span>
+                            <button type="button" class="btn btn-danger delete">
+                                <i style="font-size: 1.5em;" class="glyphicon glyphicon-trash"></i>
                             </button>
                         </div>
-                        <div class="col-md-1">
-                            <button class="btn btn-default">
-                                <span style="font-size: 1.5em;" class="glyphicon glyphicon-trash"></span>
-                            </button>
+
+                        <span style="display:inline-block; width:413px;"></span>
+
+                        <div class="col-md-4">
+
                         </div>
+                        
+                        <div class="col-md-4">
+                            <!-- Twitter -->
+                            <a href="http://twitter.com/home?status=" title="Share on Twitter" target="_blank" class="btn btn-twitter"><i class="fa fa-twitter"></i> </a>
+                            <!-- Google+ -->
+                            <a href="https://plus.google.com/share?url=" title="Share on Google+" target="_blank" class="btn btn-googleplus"><i class="fa fa-google-plus"></i> </a>
+                            <!-- LinkedIn -->
+                            <a href="http://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=" title="Share on LinkedIn" target="_blank" class="btn btn-linkedin"><i class="fa fa-linkedin"></i> </a>
+                            <!-- Facebook -->
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=~/img/1.jpg" title="Share on Facebook" target="_blank" class="btn btn-facebook"><i class="fa fa-facebook"></i> </a>
+                        </div>
+
                     </div>
 
                     <br>
@@ -381,7 +359,19 @@
 
                     <br>
 
+                    <!-- Twitter -->
+                    <a href="http://twitter.com/home?status=" title="Share on Twitter" target="_blank" class="btn btn-twitter"><i class="fa fa-twitter"></i> </a>
+                    <!-- Google+ -->
+                    <a href="https://plus.google.com/share?url=" title="Share on Google+" target="_blank" class="btn btn-googleplus"><i class="fa fa-google-plus"></i> </a>    
+                    <!-- LinkedIn -->
+                    <a href="http://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=" title="Share on LinkedIn" target="_blank" class="btn btn-linkedin"><i class="fa fa-linkedin"></i> </a>    
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=~/img/1.jpg" title="Share on Facebook" target="_blank" class="btn btn-facebook"><i class="fa fa-facebook"></i> </a>
+                    
+                    
                     <p>Use this area to provide additional information.</p>
+
+                    <!--End of ravi's change-->
 
                 </div><!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_4">
@@ -547,7 +537,152 @@
                         </div>
                     </div>
                 </div><!-- /.tab-pane -->
-           </div><!-- /.tab-content -->
+
+                <div class="tab-pane" id="tab_5">
+                    <div class="container" style="margin-top:20px;">
+
+                        <div class="container">
+                            
+                            <div class="[ col-xs-12 col-sm-6 ]">
+                                <h3>
+                                    Don't leave Yellow
+                                    <span style="display:inline-block; width:75px;"></span>
+                                    <button type="button" class="btn btn-success ">
+                                        <i style="font-size: 1.5em;" class="glyphicon glyphicon-plus"></i>
+                                    </button>
+
+                                </h3><hr />
+                                
+                                    <!-- Power Bank -->
+                                    <div class="[ form-group ]">
+                                        <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary1" autocomplete="off" />
+                                        <div class="[ btn-group ]">
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                                <span> </span>
+                                            </label>
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-default active ]">
+                                                Power Bank
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Camera Bag -->
+                                    <div class="[ form-group ]">
+                                        <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary2" autocomplete="off" />
+                                        <div class="[ btn-group ]">
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                                <span> </span>
+                                            </label>
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-default active ]">
+                                                Camera Bag
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Jacket-->
+                                    <div class="[ form-group ]">
+                                        <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary3" autocomplete="off" />
+                                        <div class="[ btn-group ]">
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                                <span> </span>
+                                            </label>
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-default active ]">
+                                                Jackets
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Rain Cover -->
+                                    <div class="[ form-group ]">
+                                        <input type="checkbox" name="fancy-checkbox-warning" id="fancy-checkbox-warning1" autocomplete="off" />
+                                        <div class="[ btn-group ]">
+                                            <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
+                                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                                <span> </span>
+                                            </label>
+                                            <label for="fancy-checkbox-warning" class="[ btn btn-default active ]">
+                                                Rain Cover
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- headLamp-->
+                                    <div class="[ form-group ]">
+                                        <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary4" autocomplete="off" />
+                                        <div class="[ btn-group ]">
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                                <span> </span>
+                                            </label>
+                                            <label for="fancy-checkbox-primary" class="[ btn btn-default active ]">
+                                                Head Lamp
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Meds -->
+                                    <div class="[ form-group ]">
+                                        <input type="checkbox" name="fancy-checkbox-warning" id="fancy-checkbox-warning2" autocomplete="off" />
+                                        <div class="[ btn-group ]">
+                                            <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
+                                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                                <span> </span>
+                                            </label>
+                                            <label for="fancy-checkbox-warning" class="[ btn btn-default active ]">
+                                                Sun Screen
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                <!-- Spectacle cover-->
+                                <div class="[ form-group ]">
+                                    <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary5" autocomplete="off" />
+                                    <div class="[ btn-group ]">
+                                        <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                                            <span> </span>
+                                        </label>
+                                        <label for="fancy-checkbox-primary" class="[ btn btn-default active ]">
+                                            Spectacle Cover
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Boots-->
+                                <div class="[ form-group ]">
+                                    <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary5" autocomplete="off" />
+                                    <div class="[ btn-group ]">
+                                        <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                                            <span> </span>
+                                        </label>
+                                        <label for="fancy-checkbox-primary" class="[ btn btn-default active ]">
+                                            Boots
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Tripods -->
+                                <div class="[ form-group ]">
+                                    <input type="checkbox" name="fancy-checkbox-warning" id="fancy-checkbox-warning2" autocomplete="off" />
+                                    <div class="[ btn-group ]">
+                                        <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
+                                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                                            <span> </span>
+                                        </label>
+                                        <label for="fancy-checkbox-warning" class="[ btn btn-default active ]">
+                                            Tripods
+                                        </label>
+                                    </div>
+                                </div>
+                        </div>
+
+                </div><!-- /.tab-pane -->
+
+            </div><!-- /.tab-content -->
         </div><!-- nav-tabs-custom -->
     </div><!-- /.col -->
 </div>
