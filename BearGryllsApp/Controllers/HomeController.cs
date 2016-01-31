@@ -26,5 +26,12 @@ namespace BearGryllsApp.Controllers
 
             return View();
         }
+
+        public ActionResult Share()
+        {
+            ViewBag.Message = "priceless moments...";
+            ViewBag.Title = "priceless moments...";
+            return View();
+        }
     }
 }
