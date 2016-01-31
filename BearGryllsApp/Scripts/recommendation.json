@@ -1,0 +1,43 @@
+{
+  "restaurants": [
+    {
+      "name": "Parklane Hotel Restaurant",
+      "url": "http://restA.com",
+      "img": "\\recommendationdata\\images\\parklane.jpg"
+    },
+    {
+      "name": "Hotel RRR Restaurant",
+      "url": "http://restB.com",
+      "img": "\\recommendationdata\\images\\rrr.jpg"
+    },
+    {
+      "name": "The Green Hotel Restaurant",
+      "url": "http://restB.com",
+      "img": "\\recommendationdata\\images\\green.jpg"
+    }
+  ],
+  "pubs": [
+    {
+      "name": "Down The Road",
+      "img": "\\recommendationdata\\images\\down.jpg"
+    },
+    {
+      "name": "Cafe Mojo Pub And Bistro",
+      "img": "\\recommendationdata\\images\\cafemojo.jpg"
+    }
+  ],
+  "hotels": [
+    {
+      "name": "Hotel Fidalgo",
+      "img": "\\recommendationdata\\images\\fidalgo.jpg"
+    },
+    {
+      "name": "Godwin Hotel",
+      "img": "\\recommendationdata\\images\\godwin.jpg"
+    },
+    {
+      "name": "The Leela Palace",
+      "img": "\\recommendationdata\\images\\leela.jpg"
+    }
+  ]
+}
