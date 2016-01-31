@@ -28,6 +28,10 @@ function getRandomSeconds(min, max) {
     return 1000*(Math.floor(Math.random() * (max - min + 1)) + min);
 }
 
+function getRandomRating(min, max) {
+    return (Math.floor(Math.random() * (max - min + 1)) + min);
+}
+
 function botReaction(message) {
     var recommendation = JSON.parse('{  "restaurants": [    {      "name": "Parklane Hotel Restaurant",      "url": "http://restA.com",      "img": "\\\\recommendationdata\\\\images\\\\parklane.jpg"    },    {      "name": "Hotel RRR Restaurant",      "url": "http://restB.com",      "img": "\\\\recommendationdata\\\\images\\\\rrr.jpg"    },    {      "name": "The Green Hotel Restaurant",      "url": "http://restB.com",      "img": "\\\\recommendationdata\\\\images\\\\green.jpg"    }  ],  "pubs": [    {      "name": "Down The Road",      "img": "\\\\recommendationdata\\\\images\\\\down.jpg"    },    {      "name": "Cafe Mojo Pub And Bistro",      "img": "\\\\recommendationdata\\\\images\\\\cafemojo.jpg"    }  ],  "hotels": [    {      "name": "Hotel Fidalgo",      "img": "\\\\recommendationdata\\\\images\\\\fidalgo.jpg"    },    {      "name": "Godwin Hotel",      "img": "\\\\recommendationdata\\\\images\\\\godwin.jpg"    },    {      "name": "The Leela Palace",      "img": "\\\\recommendationdata\\\\images\\\\leela.jpg"    }  ]}')
 	if(
@@ -89,8 +93,11 @@ function formatBotResult(preMsg, recommArr) {
 	for(var i in recommArr) {
 		returnData+="<li style=\"margin: 10px\">"
 		//	alert("<img src=\"+recommArr[i].img+\"/>")
-		returnData+="<img src=\""+recommArr[i].img+"\"/>"
-		returnData+=recommArr[i].name
+		returnData += "<img src=\"" + recommArr[i].img + "\"/> "
+        returnData+="<span>"
+		returnData += "<b>"+recommArr[i].name+"</b>"
+		returnData += "<div><img width=100 height=20 src=\"/Content/dist/img/" + getRandomRating(1, 5) + ".png\"/></div>"
+        returnData+="</span>"
 		returnData+="</li>"
 	}
 	return returnData+"</ol>"
