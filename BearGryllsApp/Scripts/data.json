@@ -5,6 +5,7 @@
       "emailId": "abhishek@gmail.com",
       "pass": "abh123",
       "trips": [ "trip0001", "trip0002" ],
+      "status":  "active",
       "lat": "15.4989",
       "long": "73.8278"
     },
@@ -12,7 +13,8 @@
      "userId": "Palash",
      "emailId": "palash@gmail.com",
      "pass": "pal123",
-     "trips": [ "trip0001","trip0002"],
+      "trips": [ "trip0001", "trip0002" ],
+      "status":  "active",
       "lat": "15.589",
       "long": "73.8278"
    },
@@ -20,7 +22,8 @@
      "userId": "Ravi",
      "emailId": "ravi@gmail.com",
      "pass": "rav123",
-     "trips": [ "trip0001","trip0002"],
+    "trips": [ "trip0001", "trip0002" ],
+    "status":  "inactive",
       "lat": "15.589",
       "long": "74.05"
    },
@@ -28,9 +31,37 @@
      "userId": "Umesh",
      "emailId": "umesh@gmail.com",
      "pass": "ume123",
-     "trips": [ "trip0002" ],
+    "trips": [ "trip0002" ],
+    "status":  "inactive",
       "lat": "15.589",
       "long": "74.00"
+   },
+   {
+     "userId": "Akhil",
+     "emailId": "umesh@gmail.com",
+     "pass": "ume123",
+    "trips": [ "trip0002" ],
+    "status":  "inactive",
+      "lat": "15.589",
+      "long": "74.10"
+   },
+   {
+     "userId": "Jiten",
+     "emailId": "umesh@gmail.com",
+     "pass": "ume123",
+    "trips": [ "trip0002" ],
+    "status":  "active",
+      "lat": "15.489",
+      "long": "74.20"
+   },
+   {
+     "userId": "Deepak",
+     "emailId": "umesh@gmail.com",
+     "pass": "ume123",
+    "trips": [ "trip0002" ],
+    "status":  "active",
+      "lat": "15.689",
+      "long": "74.30"
    }
  ],
   "trips": [
@@ -38,7 +69,7 @@
       "id": "Trip0002",
       "status": "Active",
       "disp": "Trip to Bengaluru",
-      "members": [ "Abhishek", "Ravi", "Palash", "Umesh" ]
+      "members": [ "Abhishek", "Ravi", "Palash", "Umesh", "Akhil", "Jiten", "Deepak" ]
     },
     {
       "id": "Trip0001",

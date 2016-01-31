@@ -149,6 +149,16 @@
                         {
                             continue;
                         }
+                        if (string.Equals(userInfo["status"], "inactive"))
+                        {
+                            if (Request.Url.ToString().Contains(memberId))
+                            {
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
                         <text>
                         var loc = new Microsoft.Maps.Location(@userInfo["lat"], @userInfo["long"]);
                         </text>
@@ -169,16 +179,16 @@
                         var pin = new Microsoft.Maps.Pushpin(loc, pushpinOptions);
 
                         map.entities.push(pin);
-            // Create the infobox for the pushpin
-            //Add data layer
+                        // Create the infobox for the pushpin
+                        //Add data layer
                         dataLayer = new Microsoft.Maps.EntityCollection();
                         map.entities.push(dataLayer);
 
-            // Add infobox layer
+                        // Add infobox layer
                         infoboxLayer = new Microsoft.Maps.EntityCollection();
                         map.entities.push(infoboxLayer);
 
-            //Prep InfoBox & add to infobox layer
+                        //Prep InfoBox & add to infobox layer
                         var infoboxOptions = {
                             width: 150,
                             height: 50,
@@ -220,8 +230,52 @@
                 <li class=""><a href="#tab_5" data-toggle="tab">CheckList</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                    <div id='mapDiv' style="position:relative; width:100%; height: 600px"></div>
+                <div class="tab-pane active" id="tab_1" style="height: 600px">
+                    <div class="col-md-3">
+                        <div class="box box-solid">
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Friends</h3>
+                                <div class="box-tools">
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body no-padding">
+                                <ul class="nav nav-pills nav-stacked">
+                                    @{
+                                        if (trip != null)
+                                        {
+                                            foreach (var memberId in trip["members"])
+                                            {
+                                                if (string.Equals(memberId, loggedUser))
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    if (string.Equals(GetUserInfo(memberId)["status"], "active") || Request.Url.ToString().Contains(memberId))
+                                                    {
+                                                        <li>
+                                                            <a href="#">@memberId<span class="pull-right badge bg-green">A</span></a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a href="?activate=@memberId&tripId=@trip["id"]">@memberId<span class="pull-right badge bg-red">I</span></a>
+                                                        </li>
+                                                    }
+                                                 }
+                                              }
+                                           }
+                                        }
+                                </ul>
+                            </div><!-- /.box-body -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-9" id='mapDiv' style="position:relative; height: 600px"></div>
+
                 </div><!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_2">
                         <!-- DIRECT CHAT PRIMARY -->
@@ -689,6 +743,11 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+
         $( "#PaidBy" )
           .change(function () {
               var optionSelected = $("option:selected", this);

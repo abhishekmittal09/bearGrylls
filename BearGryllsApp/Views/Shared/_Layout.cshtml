@@ -39,6 +39,8 @@
     <link rel="stylesheet" href="@Url.Content("~/Content/plugins/daterangepicker/daterangepicker-bs3.css")">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="@Url.Content("~/Content/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css")">
+    <script src="@Url.Content("~/Content/plugins/iCheck/icheck.min.js")"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -355,9 +357,16 @@
                         iter = 0;
                         foreach (var friend in @ViewBag.data["users"])
                         {
+                            if (string.Equals(friend["userId"], @ViewBag.data["loggedUser"]["userId"]))
+                            {
+
+                            }
+                            else
+                            {
                                 iter++;
                                 iter = iter % color.Count;
                                 <li><a href="#"><i class="fa fa-circle-o text-@color[iter]"></i> <span>@friend["userId"]</span></a></li>
+                            }
                         }
                     }
                 </ul>
