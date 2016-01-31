@@ -74,7 +74,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <HintPath>.\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -999,13 +999,14 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="css\bootstrap-image-gallery.css" />
     <Content Include="css\bootstrap-image-gallery.min.css" />
+    <Content Include="css\bootstrap-switch.css" />
+    <Content Include="css\bootstrap-switch.min.css" />
     <Content Include="css\demo-ie8.css" />
     <Content Include="css\demo.css" />
     <Content Include="css\jquery.fileupload-noscript.css" />
     <Content Include="css\jquery.fileupload-ui-noscript.css" />
     <Content Include="css\jquery.fileupload-ui.css" />
     <Content Include="css\jquery.fileupload.css" />
-    <Content Include="css\social-sharing.css" />
     <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1035,6 +1036,9 @@
     <Content Include="js\app.js" />
     <Content Include="js\bootstrap-image-gallery.js" />
     <Content Include="js\bootstrap-image-gallery.min.js" />
+    <Content Include="js\bootstrap-switch.js" />
+    <Content Include="js\bootstrap-switch.min.js" />
+    <Content Include="js\checklist.js" />
     <Content Include="js\cors\jquery.postmessage-transport.js" />
     <Content Include="js\cors\jquery.xdr-transport.js" />
     <Content Include="js\demo.js" />
@@ -1083,6 +1087,7 @@
     <Content Include="Content\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="css\bootstrap-image-gallery.min.css.map" />
+    <Content Include="js\bootstrap-image-gallery.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
