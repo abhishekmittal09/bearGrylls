@@ -1,0 +1,46 @@
+﻿{
+  "users": [
+    {
+      //"id": 1,
+      "userid": "abhishek",
+      "emailid": "abhishek@gmail.com",
+      "pass": "abh123",
+      "trips": [ "trip0001","trip0002"]
+    },
+    {
+      //"id": 2,
+      "userid": "palash",
+      "emailid": "palash@gmail.com",
+      "pass": "pal123",
+      "trips": [ "trip0001","trip0002"]
+    },
+    {
+      //"id": 3,
+      "userid": "ravi",
+      "emailid": "ravi@gmail.com",
+      "pass": "rav123",
+      "trips": [ "trip0001","trip0002"]
+    },
+    {
+      //"id": 4,
+      "userid": "umesh",
+      "emailid": "umesh@gmail.com",
+      "pass": "ume123",
+      "trips": [ "trip0002" ]
+    }
+  ],
+  "trips": [
+    {
+      "id": "trip0002",
+      "status": "active",
+      "disp": "Trip to Bengaluru",
+      "users": [ "abhishek", "ravi", "palash","umesh"]
+    },
+    {
+      "id": "trip0001",
+      "status": "ended",
+      "disp": "Trip to Mysore",
+      "users": [ "ravi","palash","abhishek"]
+    }
+  ]
+}
