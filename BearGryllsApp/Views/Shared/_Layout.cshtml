@@ -40,13 +40,16 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="@Url.Content("~/Content/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css")">
 
-    <link href="path-to-file/social-sharing.css" rel="stylesheet">
+    <link href="~/css/social-sharing.css" rel="stylesheet">
 
     <!-- Ravi's Upload css files-->
     <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
     <link rel="stylesheet" href="~/css/jquery.fileupload.css">
     <link rel="stylesheet" href="~/css/jquery.fileupload-ui.css">
+
+    <link rel="stylesheet" href="~/css/checklist.css">
+
     <!-- End of upload css files-->
 
 </head>
@@ -616,6 +619,8 @@
     <script src="@Url.Content("~/Content/dist/js/demo.js")"></script>
 
     <script src="@Url.Content("~/js/chatdemons.js")"></script>
+
+    <script src="@Url.Content("~/js/checklist1.js")"></script>
 
         @*@Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)

@@ -999,6 +999,7 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="css\bootstrap-image-gallery.css" />
     <Content Include="css\bootstrap-image-gallery.min.css" />
+    <Content Include="css\checklist.css" />
     <Content Include="css\demo-ie8.css" />
     <Content Include="css\demo.css" />
     <Content Include="css\jquery.fileupload-noscript.css" />
@@ -1035,6 +1036,7 @@
     <Content Include="js\app.js" />
     <Content Include="js\bootstrap-image-gallery.js" />
     <Content Include="js\bootstrap-image-gallery.min.js" />
+    <Content Include="js\checklist.js" />
     <Content Include="js\cors\jquery.postmessage-transport.js" />
     <Content Include="js\cors\jquery.xdr-transport.js" />
     <Content Include="js\demo.js" />
