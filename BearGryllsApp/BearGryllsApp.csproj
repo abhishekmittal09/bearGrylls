@@ -997,6 +997,17 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="css\bootstrap-image-gallery.css" />
+    <Content Include="css\bootstrap-image-gallery.min.css" />
+    <Content Include="css\bootstrap-switch.css" />
+    <Content Include="css\bootstrap-switch.min.css" />
+    <Content Include="css\demo-ie8.css" />
+    <Content Include="css\demo.css" />
+    <Content Include="css\jquery.fileupload-noscript.css" />
+    <Content Include="css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="css\jquery.fileupload-ui.css" />
+    <Content Include="css\jquery.fileupload.css" />
+    <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1025,6 +1036,8 @@
     <Content Include="js\app.js" />
     <Content Include="js\bootstrap-image-gallery.js" />
     <Content Include="js\bootstrap-image-gallery.min.js" />
+    <Content Include="js\bootstrap-switch.js" />
+    <Content Include="js\bootstrap-switch.min.js" />
     <Content Include="js\cors\jquery.postmessage-transport.js" />
     <Content Include="js\cors\jquery.xdr-transport.js" />
     <Content Include="js\demo.js" />
@@ -1072,6 +1085,8 @@
     <Content Include="Content\plugins\datatables\extensions\TableTools\Readme.md" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="css\bootstrap-image-gallery.min.css.map" />
+    <Content Include="js\bootstrap-image-gallery.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
