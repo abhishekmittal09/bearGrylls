@@ -7,16 +7,29 @@ function proactive() {
 function Message() {
 	var message = document.getElementById("text-input").value;
 	document.getElementById("text-input").value="";
-	if(message!="") {
-		addToChatWindow(message,"Palash",true)
+	if (message != "") {
+	    var botResponse = botReaction(message);
+	    if (botResponse != "") {
+	        addToChatWindow(message, "Abhishek", true, false)
+	        //setTimeout(addToChatWindow(botResponse, "Bot", false),getRandomSeconds(1,4))
+	        setTimeout(function () { immitateBotSearch(botResponse,false); }, 1500);
+	    } else {
+	        addToChatWindow(message, "Abhishek", true,true)
+	    }
+		
 		if(message.charAt(0)=='/') {
-			addToChatWindow(getInfoFromBot(message.substring(1)),"Bot",false)
+		    setTimeout(function () { addToChatWindow(getInfoFromBot(message.substring(1)), "Bot", false,false); }, getRandomSeconds(1, 4))
 		}
-		var botResponse = botReaction(message);
-		if(botResponse!="") {
-			addToChatWindow(botResponse,"Bot",false)
-		}
+
 	}
+}
+
+function getRandomSeconds(min, max) {
+    return 1000*(Math.floor(Math.random() * (max - min + 1)) + min);
+}
+
+function getRandomRating(min, max) {
+    return (Math.floor(Math.random() * (max - min + 1)) + min);
 }
 
 function botReaction(message) {
@@ -34,7 +47,7 @@ function botReaction(message) {
 	||
 	contains(message,"eat")
 	) {
-		return formatBotResult(recommendation.restaurants)
+		return formatBotResult("These restaurants have got some good food...!!!",recommendation.restaurants)
 	}
 	
 	else if(
@@ -46,7 +59,7 @@ function botReaction(message) {
 	||
 	contains(message,"pub")
 	) {
-		return formatBotResult(recommendation.pubs)
+		return formatBotResult("These are some pubs, I recommend...!!!",recommendation.pubs)
 	}
 	
 	else if(
@@ -62,24 +75,32 @@ function botReaction(message) {
 	||
 	contains(message,"sleep")
 	||
-	contains(message,"sleepy")
+	contains(message, "sleepy")
+    ||
+	contains(message, "hotel")
+    ||
+	contains(message, "hotels")
 	) {
-		return formatBotResult(recommendation.hotels)
+		return formatBotResult("Bot has found some good hotels for you to stay...!!!",recommendation.hotels)
 	}
 	
 	return ""
 }
 
-function formatBotResult(recommArr) {
-	var returnData='<div>';
+function formatBotResult(preMsg, recommArr) {
+    var returnData = preMsg;
+	returnData+='<ol>';
 	for(var i in recommArr) {
-		returnData+="<span>"
+		returnData+="<li style=\"margin: 10px\">"
 		//	alert("<img src=\"+recommArr[i].img+\"/>")
-		returnData+="<img src=\""+recommArr[i].img+"\"/>"
-		returnData+=recommArr[i].name
-		returnData+="</span>"
+		returnData += "<img src=\"" + recommArr[i].img + "\"/> "
+        returnData+="<span>"
+		returnData += "<b>"+recommArr[i].name+"</b>"
+		returnData += "<div><img width=100 height=20 src=\"/Content/dist/img/" + getRandomRating(1, 5) + ".png\"/></div>"
+        returnData+="</span>"
+		returnData+="</li>"
 	}
-	return returnData+"</div>"
+	return returnData+"</ol>"
 }
 
 function contains(s,sub) {
@@ -109,7 +130,7 @@ function getInfoFromBot(query) {
 	return returnData;
 }
 
-function addToChatWindow(data,frm,my) {
+function addToChatWindow(data, frm, my, replyexpected) {
     var dcm = document.createElement('div');
     dcm.className="direct-chat-msg";
 	
@@ -161,28 +182,47 @@ function addToChatWindow(data,frm,my) {
     var d = document.getElementById("chat-box-main-div");
 	d.appendChild(dcm);
 	
-	if(frm == "Palash" && data.charAt(0)!='/') {
-		setTimeout(immitateWaiting,2000)
+	if (replyexpected && frm == "Abhishek" && data.charAt(0) != '/') {
+		setTimeout(immitateWaiting,getRandomSeconds(1,3))
     }
 	d.scrollTop = d.scrollHeight;
+}
+
+function immitateBotSearch(botResponse,replyexpected) {
+    var innerDiv1 = document.createElement('div');
+    innerDiv1.setAttribute("id", "bot-typing-div");
+    innerDiv1.innerHTML = "Perhaps, Bot has got some recommendation...."
+
+    var d = document.getElementById("chat-box-main-div");
+    d.appendChild(innerDiv1);
+    d.scrollTop = d.scrollHeight;
+
+    //setTimeout(getReply, getRandomSeconds(3, 5))
+    setTimeout(function () { showBotResponse(botResponse, replyexpected); }, getRandomSeconds(1, 4))
+}
+
+function showBotResponse(botResponse, replyexpected) {
+    td = document.getElementById("bot-typing-div")
+    td.parentNode.removeChild(td);
+    addToChatWindow(botResponse, "Bot", false, replyexpected);
 }
 
 function immitateWaiting() {
 	var innerDiv1 = document.createElement('div');
 	innerDiv1.setAttribute("id","typing-div");
-	innerDiv1.innerHTML="Abhishek is typing..."
+	innerDiv1.innerHTML="Palash is typing..."
 	
 	var d = document.getElementById("chat-box-main-div");
 	d.appendChild(innerDiv1);
 	d.scrollTop = d.scrollHeight;
 
-	setTimeout(getReply,3000)
+	setTimeout(getReply,getRandomSeconds(3,5))
 }
 
 function getReply() {
 	td = document.getElementById("typing-div")
 	td.parentNode.removeChild(td);
 	
-	addToChatWindow("Some random reply", "Abhishek", false);
+	addToChatWindow("Some random reply", "Palash", false,true);
 
 }

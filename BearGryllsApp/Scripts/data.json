@@ -5,32 +5,63 @@
       "emailId": "abhishek@gmail.com",
       "pass": "abh123",
       "trips": [ "trip0001", "trip0002" ],
-      "lat": "47.592",
-      "long": "-121.33"
+      "status":  "active",
+      "lat": "15.4989",
+      "long": "73.8278"
     },
     {
      "userId": "Palash",
      "emailId": "palash@gmail.com",
      "pass": "pal123",
-     "trips": [ "trip0001","trip0002"],
-      "lat": "46.592",
-      "long": "-111.33"
+      "trips": [ "trip0001", "trip0002" ],
+      "status":  "active",
+      "lat": "15.589",
+      "long": "73.8278"
    },
    {
      "userId": "Ravi",
      "emailId": "ravi@gmail.com",
      "pass": "rav123",
-     "trips": [ "trip0001","trip0002"],
-      "lat": "47.192",
-      "long": "-122.33"
+    "trips": [ "trip0001", "trip0002" ],
+    "status":  "inactive",
+      "lat": "15.589",
+      "long": "74.05"
    },
    {
      "userId": "Umesh",
      "emailId": "umesh@gmail.com",
      "pass": "ume123",
-     "trips": [ "trip0002" ],
-     "lat": "47.592",
-     "long": "-122.5"
+    "trips": [ "trip0002" ],
+    "status":  "inactive",
+      "lat": "15.589",
+      "long": "74.00"
+   },
+   {
+     "userId": "Akhil",
+     "emailId": "umesh@gmail.com",
+     "pass": "ume123",
+    "trips": [ "trip0002" ],
+    "status":  "inactive",
+      "lat": "15.589",
+      "long": "74.10"
+   },
+   {
+     "userId": "Jiten",
+     "emailId": "umesh@gmail.com",
+     "pass": "ume123",
+    "trips": [ "trip0002" ],
+    "status":  "active",
+      "lat": "15.489",
+      "long": "74.20"
+   },
+   {
+     "userId": "Deepak",
+     "emailId": "umesh@gmail.com",
+     "pass": "ume123",
+    "trips": [ "trip0002" ],
+    "status":  "active",
+      "lat": "15.689",
+      "long": "74.30"
    }
  ],
   "trips": [
@@ -38,7 +69,7 @@
       "id": "Trip0002",
       "status": "Active",
       "disp": "Trip to Bengaluru",
-      "members": [ "Abhishek", "Ravi", "Palash", "Umesh" ]
+      "members": [ "Abhishek", "Ravi", "Palash", "Umesh", "Akhil", "Jiten", "Deepak" ]
     },
     {
       "id": "Trip0001",
@@ -46,6 +77,44 @@
       "disp": "Trip to Mysore",
       "members": [ "Ravi", "Palash", "Abhishek" ]
     }
+  ],
+  "loggedUser": {
+    "userId" :  "Abhishek"
+  },
+  "expenses": [
+    {
+      "description": "Drinks at Baga Beach",
+      "loggedUserDetails": "You owe Rs.1000/-",
+      "paidBy":  "Paid by Ravi"
+    },
+    {
+      "description": "Hotel Expenses",
+      "loggedUserDetails": "You are owed Rs.2000/-",
+      "paidBy":  "Paid by You"
+    },
+    {
+      "description": "Flight Tickets",
+      "loggedUserDetails": "You owe Rs.5000/-",
+      "paidBy":  "Paid by Palash"
+    },
+    {
+      "description": "Breakfast",
+      "loggedUserDetails": "You owe Rs.200/-",
+      "paidBy":  "Paid by Ravi"
+    }
+  ],
+  "balances": [
+    {
+      "description": "You owe Ravi",
+      "loggedUserDetails": "Rs.1000/-"
+    },
+    {
+      "description": "Ravi owes Palash",
+      "loggedUserDetails": "Rs.2000/-"
+    },
+    {
+      "description": "You owe Palash",
+      "loggedUserDetails": "Rs.5000/-"
+    }
   ]
-
 }

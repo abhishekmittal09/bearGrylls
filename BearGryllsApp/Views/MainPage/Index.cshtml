@@ -54,13 +54,91 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
-
         var map = null;
 
+
+        function displayInfobox(e) {
+            if ( this.target.id && this.target.id.indexOf("pin") != -1 ) {
+
+                infobox.setOptions({
+                    title: this.target.Title,
+                    description: this.target.Description,
+                    visible: true,
+                    offset: new Microsoft.Maps.Point(0, 25)
+                });
+
+                infobox.setLocation(this.target.getLocation());
+
+                //A buffer limit to use to specify the infobox must be away from the edges of the map.
+
+                var buffer = 30;
+                var infoboxOffset = infobox.getOffset();
+                var infoboxAnchor = infobox.getAnchor();
+                var infoboxLocation = map.tryLocationToPixel(this.target.getLocation(), Microsoft.Maps.PixelReference.control);
+                var dx = infoboxLocation.x + infoboxOffset.x - infoboxAnchor.x;
+                var dy = infoboxLocation.y - 25 - infoboxAnchor.y;
+
+                if (dy < buffer) { //Infobox overlaps with top of map.
+                    //#### Offset in opposite direction.
+                    dy *= -1;
+                    //#### add buffer from the top edge of the map.
+                    dy += buffer;
+                } else {
+                    //#### If dy is greater than zero than it does not overlap.
+                    dy = 0;
+                }
+
+                if (dx < buffer) { //Check to see if overlapping with left side of map.
+                    //#### Offset in opposite direction.
+                    dx *= -1;
+                    //#### add a buffer from the left edge of the map.
+                    dx += buffer;
+                } else { //Check to see if overlapping with right side of map.
+                    dx = map.getWidth() - infoboxLocation.x + infoboxAnchor.x - infobox.getWidth();
+                    //#### If dx is greater than zero then it does not overlap.
+                    if (dx > buffer) {
+                        dx = 0;
+                    } else {
+                        //#### add a buffer from the right edge of the map.
+                        dx -= buffer;
+                    }
+                }
+
+                //#### Adjust the map so infobox is in view
+                if (dx != 0 || dy != 0) {
+                    map.setView({
+                        centerOffset: new Microsoft.Maps.Point(dx, dy),
+                        center: map.getCenter()
+                    });
+                }
+            }
+        }
+
+
+
+        function zoomMap(indx, Lat, Long) {
+
+            var ZoomLocation = new Microsoft.Maps.Location(Lat, Long);
+
+            map.setView({
+                zoom: 17,
+                center: ZoomLocation
+            });
+
+            //#### These are the lines that dont work, selectedPin remains undefined
+            //var selectedPin = dataLayer.entities.get(PinID);
+            //Microsoft.Maps.Events.invoke(selectedPin, 'click', '');
+
+            var selectedPin = dataLayer.get(indx);
+            Microsoft.Maps.Events.invoke(selectedPin, 'click');
+        }
+        var dataLayer = null;
+        var infoboxLayer = null;
         function GetMap() {
             // Initialize the map
             map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), { credentials: "sY89A4SpRaqIyWdAKGEs~3DmGloZSTh7FQ-GrspNF9w~AlrCJ4yzXUaismMsutj0bCSh3IY499POys3fUNQNI2mFw-zzuenjML812umbHRag", mapTypeId: Microsoft.Maps.MapTypeId.road });
             @{
+                var loggedUser = ViewBag.data["loggedUser"]["userId"];
                 var trip = GetTripData(ViewBag.SelectedTripId);
                 if (trip != null)
                 {
@@ -71,15 +149,67 @@
                         {
                             continue;
                         }
+                        if (string.Equals(userInfo["status"], "inactive"))
+                        {
+                            if (Request.Url.ToString().Contains(memberId))
+                            {
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
                         <text>
                         var loc = new Microsoft.Maps.Location(@userInfo["lat"], @userInfo["long"]);
-                        var pin = new Microsoft.Maps.Pushpin(loc);
+                        </text>
+                        if (string.Equals(loggedUser, memberId))
+                        {
+
+                            <text>
+                            var pushpinOptions = {icon: 'http://www.google.com/intl/en_us/mapfiles/ms/icons/blue-dot.png', width: 30, height: 30};
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                            var pushpinOptions = {icon: 'http://www.google.com/intl/en_us/mapfiles/ms/icons/red-dot.png', width: 30, height: 30};
+                            </text>
+                        }
+                        <text>
+                        var pin = new Microsoft.Maps.Pushpin(loc, pushpinOptions);
+
                         map.entities.push(pin);
+                        // Create the infobox for the pushpin
+                        //Add data layer
+                        dataLayer = new Microsoft.Maps.EntityCollection();
+                        map.entities.push(dataLayer);
+
+                        // Add infobox layer
+                        infoboxLayer = new Microsoft.Maps.EntityCollection();
+                        map.entities.push(infoboxLayer);
+
+                        //Prep InfoBox & add to infobox layer
+                        var infoboxOptions = {
+                            width: 150,
+                            height: 50,
+                            visible: false,
+                            offset: new Microsoft.Maps.Point(0, 20)
+                        };
+
+                        infobox = new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(0, 0), infoboxOptions);
+
+                        infoboxLayer.push(infobox);
+                        pin.id = "pin_0";
+                        pin.Title = "<img src=\"http://www.martinezsoftwarehouse.com/martinez_mobile_application_service/contact_us_page/images/call_icon.png\" style=\"width: 30px; height: 30px\"/>" + "@memberId";
+                        pin.Description = "";
+                        Microsoft.Maps.Events.addHandler(pin, 'click', displayInfobox);
+                        dataLayer.push(pin);
                         </text>
                     }
                 }
             }
-            map.setView({ center: loc, zoom: 6 });
+            //Add Data to the map
+            map.setView({ center: loc, zoom: 13 });
         }
 
         GetMap();
@@ -104,14 +234,58 @@
                 <li class=""><a href="#tab_5" data-toggle="tab">CheckList</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                    <div id='mapDiv' style="position:relative; width:100%; height: 400px"></div>
+                <div class="tab-pane active" id="tab_1" style="height: 600px">
+                    <div class="col-md-3">
+                        <div class="box box-solid">
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Friends</h3>
+                                <div class="box-tools">
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body no-padding">
+                                <ul class="nav nav-pills nav-stacked">
+                                    @{
+                                        if (trip != null)
+                                        {
+                                            foreach (var memberId in trip["members"])
+                                            {
+                                                if (string.Equals(memberId, loggedUser))
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    if (string.Equals(GetUserInfo(memberId)["status"], "active") || Request.Url.ToString().Contains(memberId))
+                                                    {
+                                                        <li>
+                                                            <a href="#">@memberId<span class="pull-right badge bg-green">A</span></a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a href="?activate=@memberId&tripId=@trip["id"]">@memberId<span class="pull-right badge bg-red">I</span></a>
+                                                        </li>
+                                                    }
+                                                 }
+                                              }
+                                           }
+                                        }
+                                </ul>
+                            </div><!-- /.box-body -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-9" id='mapDiv' style="position:relative; height: 600px"></div>
+
                 </div><!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_2">
                         <!-- DIRECT CHAT PRIMARY -->
                         <div class="box box-primary direct-chat direct-chat-primary">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Direct Chat</h3>
+                                <h3 class="box-title">Group Chat</h3>
                                 <div class="box-tools pull-right">
                                     <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue">3</span>
                                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -119,9 +293,9 @@
                                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                                 </div>
                             </div><!-- /.box-header -->
-                            <div class="box-body">
+                            <div class="box-body" style="height: 600px;">
                                 <!-- Conversations are loaded here -->
-                                <div id="chat-box-main-div" class="direct-chat-messages">
+                                <div id="chat-box-main-div" class="direct-chat-messages" style="height: 600px;">
                                     <!-- Message. Default to the left -->
                                 <!--
                                     <div class="direct-chat-msg">
@@ -179,19 +353,19 @@
                 </div><!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_3">
                     <br>
-                        
+
                 <!-- Ravi's change-->
                     <!-- Adding for upload option -->
                    <br>
                     <!-- Uploading part ends here-->
                     <div class="row">
                         <div class="col-md-1">
-                            
-                            <span class="btn btn-success fileinput-button">
+
+                                    <span class="btn btn-success fileinput-button">
                                 <i style="font-size: 1.5em;" class="glyphicon glyphicon-plus"></i>
-                                <input type="file" name="files[]" multiple>
-                            </span>
-                        </div>
+                                        <input type="file" name="files[]" multiple>
+                                    </span>
+                                </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-primary start">
                                 <i style="font-size: 1.5em;" class="glyphicon glyphicon-share-alt"></i>
@@ -223,7 +397,7 @@
                             <a href="http://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=" title="Share on LinkedIn" target="_blank" class="btn btn-linkedin"><i class="fa fa-linkedin"></i> </a>
                             <!-- Facebook -->
                             <a href="https://www.facebook.com/sharer/sharer.php?u=~/img/1.jpg" title="Share on Facebook" target="_blank" class="btn btn-facebook"><i class="fa fa-facebook"></i> </a>
-                        </div>                        
+                        </div>
 
                     </div>
 
@@ -232,17 +406,17 @@
                     <div class="row" id="links">
 
                         @{ for (var i = 1; i <= 18; i++)
-                         {
-                            <a href="~/img/@(i).jpg" title="Trip_Pics" data-gallery>
-                                <img src="~/img/@(i).jpg" alt="Trip_Pics">
-                            </a>
+                            {
+                                <a href="~/img/@(i).jpg" title="Trip_Pics" data-gallery>
+                                    <img src="~/img/@(i).jpg" alt="Trip_Pics">
+                                </a>
 
-                         } }
+                            } }
 
                     </div>
 
                     <br>
-                
+
                     <!-- Twitter -->
                     <a href="http://twitter.com/home?status=" title="Share on Twitter" target="_blank" class="btn btn-twitter"><i class="fa fa-twitter"></i> </a>
                     <!-- Google+ -->
@@ -253,10 +427,173 @@
                     <a href="https://www.facebook.com/sharer/sharer.php?u=~/img/1.jpg" title="Share on Facebook" target="_blank" class="btn btn-facebook"><i class="fa fa-facebook"></i> </a>
                     
                     
-                <p>Use this area to provide additional information.</p>
+                    <p>Use this area to provide additional information.</p>
 
                     <!--End of ravi's change-->
 
+                </div><!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_4">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_41" data-toggle="tab">Add Expenses</a></li>
+                            <li class=""><a href="#tab_42" data-toggle="tab">Expenses</a></li>
+                            <li class=""><a href="#tab_43" data-toggle="tab">Balances</a></li>
+                        </ul>
+                        <div class="tab-content" style="height: 600px;">
+                            <div class="tab-pane active" id="tab_41">
+                                <br /><br />
+                                <div class="col-md-6">
+                                    <!-- Horizontal Form -->
+                                    <div class="box box-info">
+                                        <!-- form start -->
+                                        <form class="form-horizontal">
+                                            <div class="box-body">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-2 control-label">Description</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Food/Taxi/Hotel Expenses">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-2 control-label">Amount</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" id="inputPassword3" placeholder="0.00">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputPaid3" class="col-sm-2 control-label">Paid_By</label>
+                                                    <div class="col-sm-10">
+                                                        <select id="PaidBy" class="form-control select2" style="width: 100%;">
+                                                            @{
+                                                                <option selected="selected">You</option>
+                                                                if (trip != null)
+                                                                {
+                                                                    foreach (var memberId in trip["members"])
+                                                                    {
+                                                                        if (string.Equals(memberId, loggedUser))
+                                                                        {
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option>@memberId</option>
+                                                                        }
+                                                                    }
+
+                                                                }
+                                                            }
+                                                            <option>Multiple People</option>
+                                                        </select>
+                                                    </div>
+                                                </div><!-- /.form-group -->
+                                                <div id="PaidByPeople">
+                                                    @{
+                                                        if (trip != null)
+                                                        {
+                                                            foreach (var memberId in trip["members"])
+                                                            {
+                                                                <div class="form-group">
+                                                                    <label for="inputPaidByPeople3-@memberId" class="col-sm-2 control-label">@memberId</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="inputPaidByPeople3-@memberId" placeholder="0.00">
+                                                                    </div>
+                                                                </div><!-- /.form-group -->
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputSplit3" class="col-sm-2 control-label">Split</label>
+                                                    <div class="col-sm-10">
+                                                        <select id="SplitPeople" class="form-control select2" style="width: 100%;">
+                                                            <option>Equally</option>
+                                                            <option>UnEqually</option>
+                                                        </select>
+                                                    </div>
+                                                </div><!-- /.form-group -->
+
+                                                <div id="SplitingPeople">
+                                                    @{
+                                                        if (trip != null)
+                                                        {
+                                                            foreach (var memberId in trip["members"])
+                                                            {
+                                                                <div class="form-group">
+                                                                    <label for="inputPaidByPeople3-@memberId" class="col-sm-2 control-label">@memberId</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="inputPaidByPeople3-@memberId" placeholder="0.00">
+                                                                    </div>
+                                                                </div><!-- /.form-group -->
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+
+                                            </div><!-- /.box-body -->
+
+                                            <div class="box-footer">
+                                                <button type="submit" class="btn btn-default">Cancel</button>
+                                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                            </div><!-- /.box-footer -->
+                                        </form>
+                                    </div><!-- /.box -->
+                                </div>
+
+                            </div><!-- /.tab-pane -->
+
+                            <div class="tab-pane" id="tab_42">
+                                <br /><br />
+                            @{
+                                foreach (var expense in ViewBag.data["expenses"])
+                                {
+                                    <div class="col-md-12 col-sm-6 col-xs-12">
+                                        <div class="info-box bg-aqua">
+                                            <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">@expense["description"]</span>
+                                                <span class="info-box-number">@expense["loggedUserDetails"]</span>
+                                                <div class="progress">
+                                                    <div class="progress-bar" style="width: 70%"></div>
+                                                </div>
+                                                <span class="progress-description">
+                                                    @expense["paidBy"]
+                                                </span>
+                                                <a href="#" class="small-box-footer">
+                                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                                </a>
+
+                                            </div><!-- /.info-box-content -->
+                                        </div><!-- /.info-box -->
+                                    </div><!-- /.col -->
+                                }
+                            }
+
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_43">
+                                <br /><br />
+                                @{
+                                    foreach (var balance in ViewBag.data["balances"])
+                                    {
+                                        <div class="col-md-12 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-aqua">
+                                                <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">@balance["description"]</span>
+                                                    <span class="info-box-number">@balance["loggedUserDetails"]</span>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 70%"></div>
+                                                    </div>
+                                                    <a href="#" class="small-box-footer">
+                                                        More info <i class="fa fa-arrow-circle-right"></i>
+                                                    </a>
+
+                                                </div><!-- /.info-box-content -->
+                                            </div><!-- /.info-box -->
+                                        </div><!-- /.col -->
+                                    }
+                                }
+                            </div><!-- /.tab-pane -->
+                        </div>
+                    </div>
                 </div><!-- /.tab-pane -->
 
                 <div class="tab-pane" id="tab_5">
@@ -409,6 +746,39 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+
+        $( "#PaidBy" )
+          .change(function () {
+              var optionSelected = $("option:selected", this);
+              var valueSelected = this.value;
+              if(valueSelected.toLowerCase()==="multiple people"){
+                  $( "#PaidByPeople" ).show();
+              }
+              else{
+                  $( "#PaidByPeople" ).hide();
+              }
+          })
+      .change();
+
+        $( "#SplitPeople" )
+          .change(function () {
+              var optionSelected = $("option:selected", this);
+              var valueSelected = this.value;
+              if(valueSelected.toLowerCase()==="unequally"){
+                  $( "#SplitingPeople" ).show();
+              }
+              else{
+                  $( "#SplitingPeople" ).hide();
+              }
+          })
+      .change();
+
+    })
     function ImageUploader() {
         var reader = new FileReader();
 
